@@ -20,7 +20,7 @@ public class ReadCardDemo {
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/databased?"
-					+ "user=root&password=102280133!&serverTimezone=UTC&useSSL=false");
+					+ "user=root&password=0000&serverTimezone=UTC&useSSL=false");
 
 			Statement stmt = conn.createStatement();
 			
