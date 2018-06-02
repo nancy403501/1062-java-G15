@@ -64,8 +64,8 @@ public class gameUI extends JFrame implements ActionListener{
 	    
 	    clear = new JButton("clear");
 	    clear.setBounds(20,550,70,35);
-		savebt.addMouseListener(mouse);
-		savebt.addActionListener(this);
+	clear.addMouseListener(mouse);
+		clear.addActionListener(this);
 	    clear.setFont(new Font("細明體", Font.PLAIN, 15));
 	    southct.add(clear);
 		  
