@@ -45,9 +45,13 @@ public class CatchExpressionDemo {
 
 				Statement stmt = conn.createStatement();
 
-				ResultSet rs = stmt.executeQuery("select a.num, subject, verb, object, action, tocardnum, card"
+				ResultSet rs = stmt.executeQuery("select a.num, subject, verb, object, action, tocardnum"
+						+ " from action a" + " where subject='" + subject + "'" 
+						+ " and verb='" + verb + "'" + " and object='" + object + "'");
+
+				/*ResultSet rs = stmt.executeQuery("select a.num, subject, verb, object, action, tocardnum, card"
 						+ " from action a, cards c" + " where c.cardnum = a.tocardnum" + " and subject='" + subject
-						+ "'" + " and verb='" + verb + "'" + " and object='" + object + "'");
+						+ "'" + " and verb='" + verb + "'" + " and object='" + object + "'");*/
 
 				while (rs.next()) {
 					expression = rs.getString(5);
