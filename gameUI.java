@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -32,6 +33,7 @@ public class gameUI extends JFrame implements ActionListener{
 	JTextArea text,bttext;
 	JTextField subject,verb,object;
 	JLabel plus,plus2;
+	JOptionPane op;
 	
 	Mouse mouse = new Mouse();
 	
@@ -41,12 +43,16 @@ public class gameUI extends JFrame implements ActionListener{
 		
 		save = new ImageIcon(getClass().getResource("save.png"));
 		savebt = new JButton(save);
-		savebt.setBounds(23, 450,60,60);
+		savebt.addMouseListener(mouse);
+		savebt.addActionListener(this);
+		savebt.setBounds(25, 450,60,60);
 	    southct.add(savebt);
 	    
 	    clear = new JButton("clear");
-	    clear.setBounds(20,550,70,35);
-	    clear.setFont(new Font("細明體", Font.PLAIN, 15));
+	    clear.setBounds(20,550,74,35);
+		clear.addMouseListener(mouse);
+		clear.addActionListener(this);
+	    clear.setFont(new Font("細明體", Font.BOLD, 15));
 	    southct.add(clear);
 		  
 		text = new JTextArea(3,4);
@@ -91,6 +97,7 @@ public class gameUI extends JFrame implements ActionListener{
 		E201= new JButton("E201");
 		E201.setBounds(850,15,100,35);
 		E201.setFont(new Font("細明體", Font.BOLD, 20));
+		E201.setBackground(new Color(135,206,250));
 		E201.addMouseListener(mouse);
 		E201.addActionListener(this);
 		anspanel.add(E201);
@@ -99,6 +106,7 @@ public class gameUI extends JFrame implements ActionListener{
 		me= new JButton("我");
 		me.setBounds(850,15,100,35);
 		me.setFont(new Font("細明體", Font.BOLD, 20));
+		me.setBackground(new Color(135,206,250));
 		me.addMouseListener(mouse);
 		me.addActionListener(this);
 		anspanel.add(me);
@@ -107,6 +115,7 @@ public class gameUI extends JFrame implements ActionListener{
 		screen= new JButton("螢幕");
 		screen.setBounds(850,15,100,35);
 		screen.setFont(new Font("細明體", Font.BOLD, 20));
+		screen.setBackground(new Color(135,206,250));
 		screen.addMouseListener(mouse);
 		screen.addActionListener(this);
 		anspanel.add(screen);
@@ -115,6 +124,7 @@ public class gameUI extends JFrame implements ActionListener{
 		stair= new JButton("樓梯");
 		stair.setBounds(850,15,100,35);
 		stair.setFont(new Font("細明體", Font.BOLD, 20));
+		stair.setBackground(new Color(135,206,250));
 		stair.addMouseListener(mouse);
 		stair.addActionListener(this);
 		anspanel.add(stair);
@@ -123,6 +133,7 @@ public class gameUI extends JFrame implements ActionListener{
 		search= new JButton("查看");
 		search.setBounds(850,15,100,35);
 		search.setFont(new Font("細明體", Font.BOLD, 20));
+		search.setBackground(new Color(240,128,128));
 		search.addMouseListener(mouse);
 		search.addActionListener(this);
 		anspanel.add(search);
@@ -131,6 +142,7 @@ public class gameUI extends JFrame implements ActionListener{
 		move= new JButton("移動到");
 		move.setBounds(850,15,100,35);
 		move.setFont(new Font("細明體", Font.BOLD, 20));
+		move.setBackground(new Color(240,128,128));
 		move.addMouseListener(mouse);
 		move.addActionListener(this);
 		anspanel.add(move);
@@ -139,6 +151,7 @@ public class gameUI extends JFrame implements ActionListener{
 		open= new JButton("開啟");
 		open.setBounds(850,15,100,35);
 		open.setFont(new Font("細明體", Font.BOLD, 20));
+		open.setBackground(new Color(240,128,128));
 		open.addMouseListener(mouse);
 		open.addActionListener(this);
 		anspanel.add(open);
@@ -147,6 +160,7 @@ public class gameUI extends JFrame implements ActionListener{
 		upto= new JButton("走上");
 		upto.setBounds(850,15,100,35);
 		upto.setFont(new Font("細明體", Font.BOLD, 20));
+		upto.setBackground(new Color(240,128,128));
 		upto.addMouseListener(mouse);
 		upto.addActionListener(this);
 		anspanel.add(upto);
@@ -155,6 +169,7 @@ public class gameUI extends JFrame implements ActionListener{
 		wc= new JButton("廁所");
 		wc.setBounds(850,15,100,35);
 		wc.setFont(new Font("細明體", Font.BOLD, 20));
+		wc.setBackground(new Color(135,206,250));
 		wc.addMouseListener(mouse);
 		wc.addActionListener(this);
 		anspanel.add(wc);
@@ -163,6 +178,7 @@ public class gameUI extends JFrame implements ActionListener{
 		mirror= new JButton("鏡子");
 		mirror.setBounds(850,15,100,35);
 		mirror.setFont(new Font("細明體", Font.BOLD, 20));
+		mirror.setBackground(new Color(135,206,250));
 		mirror.addMouseListener(mouse);
 		mirror.addActionListener(this);
 		anspanel.add(mirror);
@@ -171,6 +187,7 @@ public class gameUI extends JFrame implements ActionListener{
 		paper= new JButton("碎紙");
 		paper.setBounds(850,15,100,35);
 		paper.setFont(new Font("細明體", Font.BOLD, 20));
+		paper.setBackground(new Color(135,206,250));
 		paper.addMouseListener(mouse);
 		paper.addActionListener(this);
 		anspanel.add(paper);
@@ -179,6 +196,7 @@ public class gameUI extends JFrame implements ActionListener{
 		pswd= new JButton("密碼");
 		pswd.setBounds(850,15,100,35);
 		pswd.setFont(new Font("細明體", Font.BOLD, 20));
+		pswd.setBackground(new Color(135,206,250));
 		pswd.addMouseListener(mouse);
 		pswd.addActionListener(this);
 		anspanel.add(pswd);
@@ -187,7 +205,7 @@ public class gameUI extends JFrame implements ActionListener{
 		gbbg= new JButton("垃圾袋");
 		gbbg.setBounds(850,15,100,35);
 		gbbg.setFont(new Font("細明體", Font.BOLD, 20));
-		gbbg.setBackground(Color.YELLOW);
+		gbbg.setBackground(new Color(135,206,250));
 		gbbg.addMouseListener(mouse);
 		gbbg.addActionListener(this);
 		anspanel.add(gbbg);
@@ -196,14 +214,99 @@ public class gameUI extends JFrame implements ActionListener{
 		add(scroll,BorderLayout.EAST);
 		
 	}
-	
+	//S,O:E201,me,screen,stair,wc,mirror,pswd,paper,gbbg
+	//V:search,move,open,upto
 	@Override
 	public void actionPerformed(ActionEvent ate) {
-		
-			if(ate.getSource()==E201) {
-				subject.setText("E201");	
+		if(ate.getSource()==clear) {
+			subject.setText(null);
+			verb.setText(null);
+			object.setText(null);
+		}
+		if(ate.getSource()==E201) {
+			if(subject.getText().equals("")) {
+				subject.setText("E201");
 			}
-		
+			else{
+				object.setText("E201");
+			}
+		}
+		if(ate.getSource()==me) {
+			if(subject.getText().equals("")) {
+				subject.setText("我");
+			}
+			else{
+				object.setText("我");
+			}	
+		}
+		if(ate.getSource()==screen) {
+			if(subject.getText().equals("")) {
+				subject.setText("螢幕");
+			}
+			else{
+				object.setText("螢幕");
+			}
+		}
+		if(ate.getSource()==stair) {
+			if(subject.getText().equals("")) {
+				subject.setText("樓梯");
+			}
+			else{
+				object.setText("樓梯");
+			}
+		}
+		if(ate.getSource()==wc) {
+			if(subject.getText().equals("")) {
+				subject.setText("廁所");
+			}
+			else{
+				object.setText("廁所");
+			}	
+		}
+		if(ate.getSource()==mirror) {
+			if(subject.getText().equals("")) {
+				subject.setText("鏡子");
+			}
+			else{
+				object.setText("鏡子");
+			}
+		}
+		if(ate.getSource()==pswd) {
+			if(subject.getText().equals("")) {
+				subject.setText("密碼");
+			}
+			else{
+				object.setText("密碼");
+			}
+		}
+		if(ate.getSource()==paper) {
+			if(subject.getText().equals("")) {
+				subject.setText("碎紙");
+			}
+			else{
+				object.setText("碎紙");
+			}
+		}
+		if(ate.getSource()==gbbg) {
+			if(subject.getText().equals("")) {
+				subject.setText("垃圾袋");
+			}
+			else{
+				object.setText("垃圾袋");
+			}	
+		}
+		if(ate.getSource()==search) {
+			verb.setText("查看");
+		}
+		if(ate.getSource()==move) {
+			verb.setText("移動到");	
+		}
+		if(ate.getSource()==open) {
+			verb.setText("開啟");	
+		}
+		if(ate.getSource()==upto) {
+			verb.setText("走上");
+		}
 	}
 
 	class Mouse implements MouseListener,MouseMotionListener{
@@ -216,7 +319,6 @@ public class gameUI extends JFrame implements ActionListener{
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
 		}
 		@Override
@@ -227,23 +329,17 @@ public class gameUI extends JFrame implements ActionListener{
 		
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
 			
-		}
-		
-		
-		@Override
+		}	
+
 		public void mouseMoved(MouseEvent arg0) {
-			// TODO motion
+//motion
 		}
-		@Override
+
 		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub	
 		}
-		@Override
-		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub		
+
+		public void mouseExited(MouseEvent arg0) {	
 		}
-	}
-			
+	}		
 }
