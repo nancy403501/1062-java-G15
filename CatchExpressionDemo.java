@@ -15,12 +15,16 @@ public class CatchExpressionDemo {
 	private String verb = null;
 	private String object = null;
 
+	private boolean nextOb = false;
+
 	public void getSubOrOb(String card) {
-		if (subject != null) {
+		if (nextOb == true) {
 			object = card;
+			nextOb = false;
 			System.out.println("object: " + object);
 		} else {
 			subject = card;
+			nextOb = true;
 			System.out.println("subject: " + subject);
 		}
 	}
