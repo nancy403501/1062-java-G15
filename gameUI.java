@@ -1,4 +1,5 @@
 
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -11,12 +12,16 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
@@ -30,7 +35,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class gameUI extends JFrame implements ActionListener {
+
+
+
+public class GameUI extends JPanel implements ActionListener {
 	int MaxCardNumber = 100;
 	String[] card = new String[MaxCardNumber];
 	// {null, null, null, null, null, null, null, null, null, null, null, null,
@@ -43,36 +51,30 @@ public class gameUI extends JFrame implements ActionListener {
 	Icon save;
 	JButton savebt, clear;
 	JButton[] button = new JButton[MaxCardNumber];
-	JButton E201, me, door, screen, stair, wc, mirror, pswd, paper, gbbg;
+	JButton E201, me, door, bigdoor,screen, stair, wc, mirror, pswd, paper, gbbg;
 	JButton search, move, open, upto;
 	JTextArea text, bttext;
 	JTextField subject, verb, object;
 	JLabel plus, plus2;
 	JOptionPane op;
-
-	Mouse mouse = new Mouse();
-
-	public gameUI() {
-
+	
+	public GameUI() {
+		
+		this.setLayout(new BorderLayout());
 		JPanel southct = new JPanel();
-
-		save = new ImageIcon(getClass().getResource("save.png"));
-		savebt = new JButton(save);
-		savebt.addMouseListener(mouse);
-		savebt.addActionListener(this);
-		savebt.setBounds(23, 470, 60, 60);
-		southct.add(savebt);
 
 		text = new JTextArea(3, 4);
 		text.setBounds(160, 490, 400, 110);
 		text.setEditable(false);
-		text.setFont(new Font("²Ó©úÅé", Font.PLAIN, 25));
+		text.setFont(new Font("ç´°æ˜é«”", Font.PLAIN, 25));
+		text.setText("ã€Œæˆ‘ã€é†’ä¾†æ™‚ï¼Œç™¼ç¾æ•™å®¤èª°éƒ½ä¸åœ¨äº†...æˆ‘æ€¥å¿™ã€ŒæŸ¥çœ‹ã€ï¼Œé€™è£¡æ‡‰è©²æ˜¯ä¸Šä¸€ç¯€èª²ã€Œç§»å‹•åˆ°ã€çš„ã€ŒE201ã€æ•™å®¤");
+		text.setLineWrap(true);
 		southct.add(text);
 
 		subject = new JTextField();
 		subject.setBounds(160, 430, 80, 40);
 		subject.setEditable(false);
-		subject.setFont(new Font("²Ó©úÅé", Font.PLAIN, 25));
+		subject.setFont(new Font("ç´°æ˜é«”", Font.PLAIN, 25));
 		southct.add(subject);
 
 		plus = new JLabel("+");
@@ -82,7 +84,7 @@ public class gameUI extends JFrame implements ActionListener {
 		verb = new JTextField();
 		verb.setBounds(290, 430, 80, 40);
 		verb.setEditable(false);
-		verb.setFont(new Font("²Ó©úÅé", Font.PLAIN, 25));
+		verb.setFont(new Font("ç´°æ˜é«”", Font.PLAIN, 25));
 		southct.add(verb);
 
 		plus2 = new JLabel("+");
@@ -92,7 +94,7 @@ public class gameUI extends JFrame implements ActionListener {
 		object = new JTextField();
 		object.setBounds(420, 430, 80, 40);
 		object.setEditable(false);
-		object.setFont(new Font("²Ó©úÅé", Font.PLAIN, 25));
+		object.setFont(new Font("ç´°æ˜é«”", Font.PLAIN, 25));
 		southct.add(object);
 		southct.setLayout(null);
 		add(southct);
@@ -105,14 +107,14 @@ public class gameUI extends JFrame implements ActionListener {
 
 		anspanel.setLayout(new BoxLayout(anspanel, BoxLayout.Y_AXIS));
 
-		// ±q¸ê®Æ®w¤¤§ì¨ú¦r¥d
+		// å¾è³‡æ–™åº«ä¸­æŠ“å–å­—å¡
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 		} catch (Exception ex) {
 			// handle the error
 		}
 
-		Connection conn = null;
+		Connection conn = null;  
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost/test?"
 					+ "user=root&password=yosafire520&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true");
@@ -122,7 +124,6 @@ public class gameUI extends JFrame implements ActionListener {
 			ResultSet rs = stmt.executeQuery("select c.cardnum, card, type, buttonName" + " from cards c");
 
 			while (rs.next()) {
-
 				card[cardNumber] = rs.getString(2);
 				cardType[cardNumber] = rs.getString(3);
 				buttonName[cardNumber] = rs.getString(4);
@@ -142,118 +143,129 @@ public class gameUI extends JFrame implements ActionListener {
 		anspanel.add(Box.createVerticalStrut(13));
 		for (int i = 0; i < MaxCardNumber; i++) {
 			button[i] = new JButton(card[i]);
-		}
-
-		E201 = button[cardNumber++];
-		E201.setFont(new Font("²Ó©úÅé", Font.BOLD, 20));
-		E201.setBackground(new Color(135, 206, 250));
-		E201.addMouseListener(mouse);
-		E201.addActionListener(this);
-		anspanel.add(E201);
-		anspanel.add(Box.createVerticalStrut(15));
-
+		}		
+		
+////////é è¨­
 		me = button[cardNumber++];
-		me.setFont(new Font("²Ó©úÅé", Font.BOLD, 20));
+		me.setFont(new Font("ç´°æ˜é«”", Font.BOLD, 20));
 		me.setBackground(new Color(135, 206, 250));
-		me.addMouseListener(mouse);
 		me.addActionListener(this);
 		anspanel.add(me);
 		anspanel.add(Box.createVerticalStrut(15));
-
-		door = button[cardNumber++];
-		door.setFont(new Font("²Ó©úÅé", Font.BOLD, 20));
-		door.setBackground(new Color(135, 206, 250));
-		door.addMouseListener(mouse);
-		door.addActionListener(this);
-		anspanel.add(door);
-		anspanel.add(Box.createVerticalStrut(15));
-
-		screen = button[cardNumber++];
-		screen.setFont(new Font("²Ó©úÅé", Font.BOLD, 20));
-		screen.setBackground(new Color(135, 206, 250));
-		screen.addMouseListener(mouse);
-		screen.addActionListener(this);
-		anspanel.add(screen);
-		anspanel.add(Box.createVerticalStrut(15));
-
-		stair = button[cardNumber++];
-		stair.setBackground(new Color(135, 206, 250));
-		stair.setFont(new Font("²Ó©úÅé", Font.BOLD, 20));
-		stair.addMouseListener(mouse);
-		stair.addActionListener(this);
-		anspanel.add(stair);
-		anspanel.add(Box.createVerticalStrut(15));
-
-		wc = button[cardNumber++];
-		wc.setFont(new Font("²Ó©úÅé", Font.BOLD, 20));
-		wc.setBackground(new Color(135, 206, 250));
-		wc.addMouseListener(mouse);
-		wc.addActionListener(this);
-		anspanel.add(wc);
-		anspanel.add(Box.createVerticalStrut(15));
-
-		mirror = button[cardNumber++];
-		mirror.setFont(new Font("²Ó©úÅé", Font.BOLD, 20));
-		mirror.setBackground(new Color(135, 206, 250));
-		mirror.addMouseListener(mouse);
-		mirror.addActionListener(this);
-		anspanel.add(mirror);
-		anspanel.add(Box.createVerticalStrut(15));
-
-		pswd = button[cardNumber++];
-		pswd.setFont(new Font("²Ó©úÅé", Font.BOLD, 20));
-		pswd.setBackground(new Color(135, 206, 250));
-		pswd.addMouseListener(mouse);
-		pswd.addActionListener(this);
-		anspanel.add(pswd);
-		anspanel.add(Box.createVerticalStrut(15));
-
-		paper = button[cardNumber++];
-		paper.setFont(new Font("²Ó©úÅé", Font.BOLD, 20));
-		paper.setBackground(new Color(135, 206, 250));
-		paper.addMouseListener(mouse);
-		paper.addActionListener(this);
-		anspanel.add(paper);
-		anspanel.add(Box.createVerticalStrut(15));
-
-		gbbg = button[cardNumber++];
-		gbbg.setFont(new Font("²Ó©úÅé", Font.BOLD, 20));
-		gbbg.setBackground(new Color(135, 206, 250));
-		gbbg.addMouseListener(mouse);
-		gbbg.addActionListener(this);
-		anspanel.add(gbbg);
-		anspanel.add(Box.createVerticalStrut(15));
-
+		
 		search = button[cardNumber++];
-		search.setFont(new Font("²Ó©úÅé", Font.BOLD, 20));
+		search.setFont(new Font("ç´°æ˜é«”", Font.BOLD, 20));
 		search.setBackground(new Color(240, 128, 128));
-		search.addMouseListener(mouse);
 		search.addActionListener(this);
 		anspanel.add(search);
 		anspanel.add(Box.createVerticalStrut(15));
 
 		move = button[cardNumber++];
-		move.setFont(new Font("²Ó©úÅé", Font.BOLD, 20));
+		move.setFont(new Font("ç´°æ˜é«”", Font.BOLD, 20));
 		move.setBackground(new Color(240, 128, 128));
-		move.addMouseListener(mouse);
 		move.addActionListener(this);
 		anspanel.add(move);
 		anspanel.add(Box.createVerticalStrut(15));
 
+		E201 = button[cardNumber++];
+		E201.setFont(new Font("ç´°æ˜é«”", Font.BOLD, 20));
+		E201.setBackground(new Color(135, 206, 250));
+		E201.addActionListener(this);
+		anspanel.add(E201);
+		E201.setEnabled(true);
+		E201.setVisible(true);
+		anspanel.add(Box.createVerticalStrut(15));
+////////é è¨­
+		
+		door = button[cardNumber++];
+		door.setFont(new Font("ç´°æ˜é«”", Font.BOLD, 20));
+		door.setBackground(new Color(135, 206, 250));
+		door.addActionListener(this);
+		anspanel.add(door);
+		door.setEnabled(false);
+		door.setVisible(false);
+		anspanel.add(Box.createVerticalStrut(15));
+		
+
+		screen = button[cardNumber++];
+		screen.setFont(new Font("ç´°æ˜é«”", Font.BOLD, 20));
+		screen.setBackground(new Color(135, 206, 250));
+		screen.addActionListener(this);
+		anspanel.add(screen);
+		screen.setEnabled(false);
+		screen.setVisible(false);
+		anspanel.add(Box.createVerticalStrut(15));
+		
 		open = button[cardNumber++];
-		open.setFont(new Font("²Ó©úÅé", Font.BOLD, 20));
+		open.setFont(new Font("ç´°æ˜é«”", Font.BOLD, 20));
 		open.setBackground(new Color(240, 128, 128));
-		open.addMouseListener(mouse);
 		open.addActionListener(this);
 		anspanel.add(open);
+		open.setEnabled(false);
+		open.setVisible(false);
 		anspanel.add(Box.createVerticalStrut(15));
 
-		upto = button[cardNumber++];
-		upto.setFont(new Font("²Ó©úÅé", Font.BOLD, 20));
-		upto.setBackground(new Color(240, 128, 128));
-		upto.addMouseListener(mouse);
-		upto.addActionListener(this);
-		anspanel.add(upto);
+		stair = button[cardNumber++];
+		stair.setBackground(new Color(135, 206, 250));
+		stair.setFont(new Font("ç´°æ˜é«”", Font.BOLD, 20));
+		stair.addActionListener(this);
+		anspanel.add(stair);
+		stair.setEnabled(false);
+		stair.setVisible(false);
+		anspanel.add(Box.createVerticalStrut(15));
+		
+		bigdoor = button[cardNumber++];
+		bigdoor.setFont(new Font("ç´°æ˜é«”", Font.BOLD, 20));
+		bigdoor.setBackground(new Color(135, 206, 250));
+		bigdoor.addActionListener(this);
+		anspanel.add(bigdoor);
+		bigdoor.setEnabled(false);
+		bigdoor.setVisible(false);
+		anspanel.add(Box.createVerticalStrut(15));
+
+		wc = button[cardNumber++];
+		wc.setFont(new Font("ç´°æ˜é«”", Font.BOLD, 20));
+		wc.setBackground(new Color(135, 206, 250));
+		wc.addActionListener(this);
+		anspanel.add(wc);
+		wc.setEnabled(false);
+		wc.setVisible(false);
+		anspanel.add(Box.createVerticalStrut(15));
+
+		mirror = button[cardNumber++];
+		mirror.setFont(new Font("ç´°æ˜é«”", Font.BOLD, 20));
+		mirror.setBackground(new Color(135, 206, 250));
+		mirror.addActionListener(this);
+		anspanel.add(mirror);
+		mirror.setEnabled(false);
+		mirror.setVisible(false);
+		anspanel.add(Box.createVerticalStrut(15));
+		
+		gbbg = button[cardNumber++];
+		gbbg.setFont(new Font("ç´°æ˜é«”", Font.BOLD, 20));
+		gbbg.setBackground(new Color(135, 206, 250));
+		gbbg.addActionListener(this);
+		anspanel.add(gbbg);
+		gbbg.setEnabled(false);
+		gbbg.setVisible(false);
+		anspanel.add(Box.createVerticalStrut(15));
+		
+		paper = button[cardNumber++];
+		paper.setFont(new Font("ç´°æ˜é«”", Font.BOLD, 20));
+		paper.setBackground(new Color(135, 206, 250));
+		paper.addActionListener(this);
+		anspanel.add(paper);
+		paper.setEnabled(false);
+		paper.setVisible(false);
+		anspanel.add(Box.createVerticalStrut(15));
+
+		pswd = button[cardNumber++];
+		pswd.setFont(new Font("ç´°æ˜é«”", Font.BOLD, 20));
+		pswd.setBackground(new Color(135, 206, 250));
+		pswd.addActionListener(this);
+		anspanel.add(pswd);
+		pswd.setEnabled(false);
+		pswd.setVisible(false);
 		anspanel.add(Box.createVerticalStrut(15));
 
 		add(scroll, BorderLayout.EAST);
@@ -289,59 +301,158 @@ public class gameUI extends JFrame implements ActionListener {
 				object.setText(null);
 				isSubjectEmpty = false;
 				isObjectEmpty = true;
-			}
-			express.getSubOrOb(card[i]);
-		} else {
+			}			
+		express.getSubOrOb(card[i]);
+		}
+		else {
 			verb.setText(card[i]);
-			express.getVerb(card[i]);
-		}
-
-		// ±q¸ê®Æ®w¤¤§ì¨ú´y­z¥y
+ 			express.getVerb(card[i]);
+		}	
+		
+		int storyLine = 0;
+		
+		// å¾è³‡æ–™åº«ä¸­æŠ“å–æè¿°å¥
 		expression = express.getExpression();
+		storyLine = express.getStoryLineNum();
 		text.setText(expression);
+		text.setLineWrap(true);
+
+		switch(storyLine) {
+			case 1: 
+				door.setVisible(true);
+				door.setEnabled(true);
+				screen.setVisible(true);
+				screen.setEnabled(true);
+				break;
+			case 2:
+				open.setVisible(true);
+				open.setEnabled(true);
+				break;
+			case 3:
+				break;
+			case 4:
+				break;
+			case 5:
+				stair.setVisible(true);
+				stair.setEnabled(true);
+				
+				E201.setEnabled(false);
+				E201.setVisible(false);
+				door.setVisible(false);
+				door.setEnabled(false);
+				screen.setVisible(false);
+				screen.setEnabled(false);
+				break;
+			case 6:
+				bigdoor.setVisible(true);
+				bigdoor.setEnabled(true);
+				break;
+			case 7:
+				open.setVisible(true);
+				open.setEnabled(true);
+				wc.setVisible(true);
+				wc.setEnabled(true);
+				
+				stair.setVisible(false);
+				stair.setEnabled(false);
+				mirror.setVisible(false);
+				mirror.setEnabled(false);
+				gbbg.setVisible(false);
+				gbbg.setEnabled(false);
+				paper.setVisible(false);
+				paper.setEnabled(false);
+				break;
+			case 8:
+				open.setVisible(false);
+				open.setEnabled(false);
+				break;
+			case 9:
+				mirror.setVisible(true);
+				mirror.setEnabled(true);
+				gbbg.setVisible(true);
+				gbbg.setEnabled(true);
+				
+				open.setVisible(false);
+				open.setEnabled(false);
+				break;
+			case 10:
+				paper.setVisible(true);
+				paper.setEnabled(true);
+				break;
+			case 11:
+				break;
+			case 12:
+				bigdoor.setVisible(true);
+				bigdoor.setEnabled(true);
+				pswd.setVisible(true);
+				pswd.setEnabled(true);
+				break;
+			case 13:
+				stair.setVisible(false);
+				stair.setEnabled(false);
+				mirror.setVisible(false);
+				mirror.setEnabled(false);
+				gbbg.setVisible(false);
+				gbbg.setEnabled(false);
+				paper.setVisible(false);
+				paper.setEnabled(false);
+				break;
+			case 14:
+				stair.setVisible(false);
+				stair.setEnabled(false);
+				break;
+			case 15:
+				stair.setVisible(false);
+				stair.setEnabled(false);
+				mirror.setVisible(false);
+				mirror.setEnabled(false);
+				gbbg.setVisible(false);
+				gbbg.setEnabled(false);
+				break;
+			default:
+				break;
+			
+		}
+		
+
+/*
+		if(subject.getText().equals("æˆ‘")&&verb.getText().equals("æŸ¥çœ‹")&&object.getText().equals("E201")) {
+			door.setVisible(true);
+			door.setEnabled(true);
+			screen.setVisible(true);
+			screen.setEnabled(true);
+		}
+		if(subject.getText().equals("æˆ‘")&&verb.getText().equals("æŸ¥çœ‹")&&object.getText().equals("é–€")) {
+			open.setVisible(true);
+			open.setEnabled(true);
+		}
+		if(subject.getText().equals("E201")&&verb.getText().equals("é–‹å•Ÿ")&&object.getText().equals("é–€")) {
+			stair.setVisible(true);
+			stair.setEnabled(true);
+		}
+		if(subject.getText().equals("æˆ‘")&&verb.getText().equals("ç§»å‹•åˆ°")&&object.getText().equals("æ¨“æ¢¯")) {
+			bigdoor.setVisible(true);
+			bigdoor.setEnabled(true);
+		}
+		if(subject.getText().equals("æˆ‘")&&verb.getText().equals("æŸ¥çœ‹")&&object.getText().equals("å¤§é–€")) {
+			wc.setVisible(true);
+			wc.setEnabled(true);
+		}
+		if(subject.getText().equals("æˆ‘")&&verb.getText().equals("æŸ¥çœ‹")&&object.getText().equals("å»æ‰€")) {
+			mirror.setVisible(true);
+			mirror.setEnabled(true);
+			gbbg.setVisible(true);
+			gbbg.setEnabled(true);
+		}
+		if(subject.getText().equals("æˆ‘")&&verb.getText().equals("æŸ¥çœ‹")&&object.getText().equals("åƒåœ¾è¢‹")) {
+			paper.setVisible(true);
+			paper.setEnabled(true);
+		}
+		if(subject.getText().equals("ç¢ç´™")&&verb.getText().equals("ç§»å‹•åˆ°")&&object.getText().equals("é¡å­")) {
+			pswd.setVisible(true);
+			pswd.setEnabled(true);
+		}
+*/		
+		
 	}
-
-	class Mouse implements MouseListener, MouseMotionListener {
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			x1 = e.getX();
-			y1 = e.getY();
-			// System.out.print("x1"+x1+"y1"+y1);
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseDragged(MouseEvent e) {
-			// motion
-
-		}
-
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void mouseMoved(MouseEvent arg0) {
-			// TODO motion
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void mouseExited(MouseEvent arg0) {
-			// TODO Auto-generated method stub
-		}
-	}
-
 }
