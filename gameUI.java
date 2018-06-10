@@ -290,12 +290,15 @@ public class GameUI extends JPanel implements ActionListener {
 		if (tmpCardType.equals("SubjectObject")) {
 			// if (tmpCardType == cardType[i]) {
 			if (isSubjectEmpty == true) {
+				Sound.play("resources/click.wav");
 				subject.setText(card[i]);
 				isSubjectEmpty = false;
 			} else if (isObjectEmpty == true) {
+				Sound.play("resources/click.wav");
 				object.setText(card[i]);
 				isObjectEmpty = false;
 			} else {
+				Sound.play("resources/click.wav");
 				subject.setText(card[i]);
 				verb.setText(null);
 				object.setText(null);
@@ -305,6 +308,7 @@ public class GameUI extends JPanel implements ActionListener {
 		express.getSubOrOb(card[i]);
 		}
 		else {
+			Sound.play("resources/click.wav");
 			verb.setText(card[i]);
  			express.getVerb(card[i]);
 		}	
@@ -316,7 +320,6 @@ public class GameUI extends JPanel implements ActionListener {
 		storyLine = express.getStoryLineNum();
 		text.setText(expression);
 		text.setLineWrap(true);
-
 		switch(storyLine) {
 			case 1: 
 				door.setVisible(true);
@@ -335,7 +338,6 @@ public class GameUI extends JPanel implements ActionListener {
 			case 5:
 				stair.setVisible(true);
 				stair.setEnabled(true);
-				
 				E201.setEnabled(false);
 				E201.setVisible(false);
 				door.setVisible(false);
@@ -413,6 +415,15 @@ public class GameUI extends JPanel implements ActionListener {
 				break;
 			
 		}
+		if(subject.getText().equals("E201")&&verb.getText().equals("開啟")&&object.getText().equals("門")) {
+			Sound.play("resources/opendoor.wav");
+		}
+		if(subject.getText().equals("我")&&verb.getText().equals("移動到")&&object.getText().equals("樓梯")) {
+			Sound.play("resources/step.wav");
+		}
+		if(subject.getText().equals("密碼")&&verb.getText().equals("開啟")&&object.getText().equals("大門")) {
+			Sound.play("resources/goal.wav");
+		}
 		
 
 /*
@@ -425,14 +436,6 @@ public class GameUI extends JPanel implements ActionListener {
 		if(subject.getText().equals("我")&&verb.getText().equals("查看")&&object.getText().equals("門")) {
 			open.setVisible(true);
 			open.setEnabled(true);
-		}
-		if(subject.getText().equals("E201")&&verb.getText().equals("開啟")&&object.getText().equals("門")) {
-			stair.setVisible(true);
-			stair.setEnabled(true);
-		}
-		if(subject.getText().equals("我")&&verb.getText().equals("移動到")&&object.getText().equals("樓梯")) {
-			bigdoor.setVisible(true);
-			bigdoor.setEnabled(true);
 		}
 		if(subject.getText().equals("我")&&verb.getText().equals("查看")&&object.getText().equals("大門")) {
 			wc.setVisible(true);
